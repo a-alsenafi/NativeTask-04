@@ -9,11 +9,15 @@ import { Text, Button, Icon } from "native-base";
 
 //Store
 import CartStore from "../../store/cartStore";
+import authStore from "../../store/authStore";
 
 class Quantity extends React.Component {
   navigate() {
-    let route = this.props.route;
-    this.props.navigation.navigate(route);
+    if (authStore.isAuthenticated) {
+      this.props.navigation.navigate("CoffeeCart");
+    } else {
+      this.props.navigation.navigate("Login");
+    }
   }
 
   render() {

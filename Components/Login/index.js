@@ -14,8 +14,28 @@ import {
   Content,
   Header
 } from "native-base";
+import authStore from "../../store/authStore";
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: ""
+    };
+    this.changeHandler = this.changeHandler.bind(this);
+    this.signUp = this.signUp.bind(this);
+  }
+  changeHandler() {
+    // console.log(this.state);
+    authStore.loginUser(this.state, this.props.navigation);
+  }
+
+  signUp() {
+    //  console.log(this.state);
+    authStore.signup(this.state, this.props.navigation);
+  }
+
   static navigationOptions = {
     title: "Login"
   };
@@ -38,7 +58,11 @@ class Login extends Component {
                     marginBottom: 10
                   }}
                 >
-                  <Input autoCorrect={false} autoCapitalize="none" />
+                  <Input
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    onChangeText={text => this.setState({ username: text })}
+                  />
                 </Item>
                 <Body>
                   <Label style={{ color: "white" }}>Password</Label>
@@ -51,23 +75,16 @@ class Login extends Component {
                     autoCorrect={false}
                     secureTextEntry
                     autoCapitalize="none"
+                    onChangeText={text => this.setState({ password: text })}
                   />
                 </Item>
               </Form>
             </Body>
           </ListItem>
-          <Button
-            full
-            success
-            onPress={() => this.props.navigation.replace("CoffeeList")}
-          >
+          <Button full success onPress={() => this.changeHandler()}>
             <Text>Login</Text>
           </Button>
-          <Button
-            full
-            warning
-            onPress={() => this.props.navigation.replace("CoffeeList")}
-          >
+          <Button full warning onPress={() => this.signUp()}>
             <Text>Register</Text>
           </Button>
         </List>
